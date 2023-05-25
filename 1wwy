@@ -1,0 +1,187 @@
+import java.net.*;
+
+import java.io.*;
+
+public class rserver
+
+{
+
+ServerSocket server=null;
+
+Socket clientserver=null;
+
+Thread ServerThread;
+
+PrintStream out;
+
+BufferedReader in;
+
+String strs;
+
+public rserver()
+
+{
+
+try{
+
+server=new ServerSocket(3500);
+
+clientserver=server.accept();
+
+System.out.println("server-client connnection is 
+
+established");
+
+out=new 
+
+PrintStream(clientserver.getOutputStream());
+
+out.println(" welcome");
+
+out.println("Type <Quit> to end");
+
+while(true)
+
+{
+
+in=new BufferedReader(new 
+
+InputStreamReader(clientserver.getInputStream()
+
+));
+
+strs=in.readLine();
+
+System.out.println("server,from client : "+strs);
+
+out.println("information is received");
+
+String s2="Quit";
+
+if(strs.equals(s2))
+
+break;
+
+}
+
+}
+
+catch (Exception e)
+
+{
+
+System.out.println(e);
+
+}
+
+}
+
+public static void main(String args[])
+
+{
+
+new rserver();
+
+}
+
+}
+
+
+
+
+client 
+
+
+mport java.net.*;
+
+import java.io.*;
+
+public class rclient{
+
+public static void main(String args[])
+
+{
+
+Socket servsoc=null;
+
+BufferedReader in=null;
+
+BufferedReader key=null;
+
+PrintStream out=null;
+
+String str=null;
+
+String skey=null;
+
+try{
+
+InetAddress 
+
+address=InetAddress.getLocalHost();
+
+System.out.println(address);
+
+servsoc=new Socket(address,3500);
+
+in=new BufferedReader(new 
+
+InputStreamReader(servsoc.getInputStream()
+
+));
+
+out=new 
+
+PrintStream(servsoc.getOutputStream());
+
+key=new BufferedReader(new 
+
+InputStreamReader(System.in));
+
+str=in.readLine();
+
+System.out.println("client from server"+str);
+
+System.out.println("Enter the message <End-
+
+to Quit>");
+
+while(true)
+
+{
+
+skey=key.readLine();
+
+out.println(skey);
+
+in=new BufferedReader(new 
+
+InputStreamReader(servsoc.getInputStream()
+
+));
+
+str=in.readLine();
+
+System.out.println("From server : "+str);
+
+out.println("ok");
+
+String s2="End";
+
+if(skey.equals(s2))
+
+break;
+
+}
+
+}
+
+catch(Exception 
+
+e){System.out.println("connection is not 
+
+properly");}
+
+}
+
+}
